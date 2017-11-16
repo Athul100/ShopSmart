@@ -12,8 +12,10 @@ class Window(QtGui.QWidget):
 
         
         super(Window,self).__init__()
-       
-        self.setFixedSize(1200, 500);
+        palette = QtGui.QPalette()
+        palette.setColor(QtGui.QPalette.Background,QtGui.QColor.fromHsv(30, 193, 247))
+        self.setPalette(palette)
+        self.setFixedSize(1200, 600);
         self.setWindowTitle("Shop Smart")
         self.setWindowIcon(QtGui.QIcon('shop.gif'))
         extractAction = QtGui.QAction("&Quit",self)
@@ -23,33 +25,20 @@ class Window(QtGui.QWidget):
         self.mainMenu = QtGui.QMenuBar(self)
         fileMenu = self.mainMenu.addMenu('&File')
         fileMenu.addAction(extractAction)
-        self.pic1 = QtGui.QLabel(self)
-        self.pic1.setGeometry(0, 400, 1200, 500)
-        self.pic1.move(0,70)
-        self.pic1.setPixmap(QtGui.QPixmap(os.getcwd() + "/market1.jpg"))
-        self.pi1 = QtGui.QLabel(self)
-    
-        self.pi1.move(680,0)
-        self.pi1.setPixmap(QtGui.QPixmap(os.getcwd() + "/2.png"))
         pic = QtGui.QLabel(self)
         pic.setGeometry(10, 10, 30, 30)
         pic.move(10,40)
         pic.setStyleSheet("QLabel { background-color : white;  }")
         pic.setPixmap(QtGui.QPixmap(os.getcwd() + "/search1.png"))
-       
-
-        self.pic2 = QtGui.QLabel(self)
-       
-        self.pic2.move(820,0)
-        self.pic2.setPixmap(QtGui.QPixmap(os.getcwd() + "/market3.png"))
-        
-
-        
-        self.buttons = QtGui.QPushButton('Search', self)
-        self.buttons.move(350,40)
-        self.buttons.resize(50,30)
-        self.buttons.clicked.connect(self.on_click)
-        self.buttons.setStyleSheet('QPushButton { border: none;background-color: white; color: black;}')
+        self.pic1 = QtGui.QLabel(self)
+        self.pic1.setGeometry(100, 400, 1500, 500)
+        self.pic1.move(0,70)
+        self.pic1.setPixmap(QtGui.QPixmap(os.getcwd() + "/market1.png"))
+        self.button = QtGui.QPushButton('Search', self)
+        self.button.move(350,40)
+        self.button.resize(50,30)
+        self.button.clicked.connect(self.on_click)
+        self.button.setStyleSheet('QPushButton { border: none;background-color: white; color: black;}')
         self.setFocus()
         self.grid = QtGui.QGridLayout()
         self.opt=0
@@ -67,25 +56,7 @@ class Window(QtGui.QWidget):
         self.textbox.move(40, 40)
         self.textbox.resize(280,30)
         self.textbox.setStyleSheet("QLineEdit { border: none }")
-        
         #-------------------------------------------------
-        self.labl1 =  QtGui.QLabel(self)
-            
-
-        self.labl1.setText("FlipKart")
-        self.labl1.setStyleSheet('QLabel {font: bold ;   font-size: 18pt; color: black;}')
-      
-        self.labl1.move(40,100)
-
-        self.labl2 =  QtGui.QLabel(self)
-            
-
-        self.labl2.setText("Amazon.in")
-        self.labl2.setStyleSheet('QLabel {font: bold ;   font-size: 18pt; color: black;}')
-      
-        self.labl2.move(900,100)
-        
-
 
         #----------------SEARCH BOX END----------------
         self.show()
@@ -101,27 +72,6 @@ class Window(QtGui.QWidget):
         else:
                                             pass
     def on_click(self):
-        try:
-            
-            self.lbl5.hide()
-            self.lbl6.hide()
-            self.lbl7.hide()
-            self.lbl8.hide()
-            self.lbl9.hide()
-            self.lbl10.hide()
-            self.button3.hide()
-            self.button4.hide()
-            self.lbl.hide()
-            
-            self.lbl1.hide()
-            self.lbl2.hide()
-            self.lbl3.hide()
-            self.lbl4.hide()
-            self.cmpre_button.hide()
-         
-            
-        except:
-            pass
         self.item=self.textbox.text()
         print self.item
         self.item=self.item.replace(' ','+')
@@ -138,7 +88,6 @@ class Window(QtGui.QWidget):
             status=0
         if status==1:
             self.pic1.hide()
-            
             QtGui.QApplication.restoreOverrideCursor()
             #----------------------------SHOW FLIPKART SUGGESTIONS ONSCREEN--------------------
 
@@ -150,7 +99,7 @@ class Window(QtGui.QWidget):
                 
                 button.clicked.connect(self.flip_search(name))
                 button.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
-                button.setStyleSheet('QPushButton {background-color: white; color: black;}')
+                button.setStyleSheet('QPushButton {background-color: silver; color: black;}')
                 url = self.img1[index]
                 index+=1
                 
@@ -214,23 +163,14 @@ class Window(QtGui.QWidget):
             except:
                 pass
         i=0
-        self.price1=self.tree.xpath('//div[contains(@class,"pu-details lastUnit")]//div[contains(@class,"pu-price")]//div[contains(@class,"pu-final")]//span/text()')
+        self.price1=self.tree.xpath('//div[contains(@class,"pu-details lastUnit")]//div[contains(@class,"pu-price")]//span/text()')
         
     def flip_search(self, name):
         def flip_search():
             print(name)
-            
             self.onclick2()
             ####-----------------show details of flipkart ------
-            #self.pic1.hide()
-            
-            self.pi2 = QtGui.QLabel(self)
-    
-            self.pi2.move(80,100)
-            self.pi2.setPixmap(QtGui.QPixmap(os.getcwd() + "/flip.jpg"))
-            
-            self.pi2.show()
-            
+            self.pic1.hide()
             self.show_flipkart_details(name)
             self.cmpre_button = QtGui.QPushButton('Compare with AMAZON',self)
             self.cmpre_button.clicked.connect(self.compare_amazon)
@@ -245,7 +185,7 @@ class Window(QtGui.QWidget):
             print(name)
             self.onclick2()
             ####-----------------show details of amazon ------
-            #self.pic1.hide()
+            self.pic1.hide()
             self.title=name
             self.fliptoamazonSearch()
             self.display_amazon_specs()
@@ -262,17 +202,12 @@ class Window(QtGui.QWidget):
         self.button4.show()
         self.amatoflipsearch()
     def amatoflipsearch(self):
-        self.button3.hide()
         self.item=self.item.replace(' ','+')
         QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         link = 'http://www.flipkart.com/search/a/all?query={0}&vertical=all&dd=0&autosuggest[as]=off&autosuggest[as-submittype]=entered&autosuggest[as-grouprank]=0&autosuggest[as-overallrank]=0&autosuggest[orig-query]=&autosuggest[as-shown]=off&Search=%C2%A0&otracker=start&_r=YSWdYULYzr4VBYklfpZRbw--&_l=pMHn9vNCOBi05LKC_PwHFQ--&ref=a2c6fadc-2e24-4412-be6a-ce02c9707310&selmitem=All+Categories'.format(self.item)
-        try:
-            page = requests.get(link)
-        
-            self.tree = html.fromstring(page.content)
-            self.get_flip_suggestions()
-        except:
-            print "No net connection"
+        page = requests.get(link)
+        self.tree = html.fromstring(page.content)
+        self.get_flip_suggestions()
 
         for elt in self.tree.xpath('//div[contains(@class,"pu-visual-section")]//a'):
             new=elt.attrib['href'], elt.text_content()
@@ -282,8 +217,7 @@ class Window(QtGui.QWidget):
             try:
                 self.new_link1=elt.attrib['href']
             except:
-                print "Not Found in flipkart"
-                
+                pass
         i=0
         for elt in self.tree.xpath('//div[contains(@class,"pu-visual-section")]//a[contains(@class,"pu-image fk-product-thumb")]//img'):
             try:
@@ -298,7 +232,7 @@ class Window(QtGui.QWidget):
             except:
                 pass
         i=0
-        self.price1=self.tree.xpath('//div[contains(@class,"pu-details lastUnit")]//div[contains(@class,"pu-price")]//div[contains(@class,"pu-final")]//span/text()')
+        self.price1=self.tree.xpath('//div[contains(@class,"pu-details lastUnit")]//div[contains(@class,"pu-price")]//span/text()')
 
         ##########################################################
         self.opt=1
@@ -668,28 +602,21 @@ class Window(QtGui.QWidget):
     def fliptoamazonSearch(self):
         print self.title
         link = 'http://www.amazon.in/s/ref=nb_ss_gw/102-1882688-6100927?initialSearch=1&url=search-alias%3Daps&field-keywords='+self.title+"&Go.x=0&Go.y=0&Go=Go"
-        try:
-            page = requests.get(link)
-            tree = html.fromstring(page.content)
-        except:
-            print "No internet connection"
-        try:
-            for elt in tree.xpath('//div[contains(@id,"atfResults")]//div[contains(@class,"a-column a-span12 a-text-center")]//a[contains(@class,"a-link-normal a-text-normal")]//img'):
-                    self.ama_img=elt.attrib['src']
-                    break
-        except:
-               print "Not available in amazon"
-        
+        page = requests.get(link)
+        tree = html.fromstring(page.content)
+    
+        for elt in tree.xpath('//div[contains(@id,"atfResults")]//div[contains(@class,"a-column a-span12 a-text-center")]//a[contains(@class,"a-link-normal a-text-normal")]//img'):
+                self.ama_img=elt.attrib['src']
+                break
+       
         for elt in tree.xpath('//div[contains(@id,"atfResults")]//div[contains(@class,"a-fixed-left-grid-col a-col-right")]//a[contains(@class,"a-link-normal s-access-detail-page  a-text-normal")]'):
                     self.ama_title=elt.attrib['title']
                     break
         
         
         amaz_price=tree.xpath('//div[contains(@id,"atfResults")]//div[contains(@class,"a-row")]//a[contains(@class,"a-link-normal a-text-normal")]//span[contains(@class,"a-size-base a-color-price s-price a-text-bold")]/text()')        
-        try:
-            self.ama_price=amaz_price[0]
-        except:
-            print "Not found in amazon"
+        self.ama_price=amaz_price[0]
+       
         
         amaz_rating=tree.xpath('//div[contains(@id,"atfResults")]//div[contains(@class,"a-row")]//div[contains(@class,"a-column a-span5 a-span-last")]//span[contains(@class,"a-icon-alt")]/text()')
         self.ama_rating=amaz_rating[0]
@@ -717,7 +644,7 @@ class Window(QtGui.QWidget):
             
 
             self.lbl6.setText(self.ama_title)
-            self.lbl6.setStyleSheet('QLabel {font: bold;font-size: 16pt; color: black;allign:left;}')
+            self.lbl6.setStyleSheet('QLabel {font: bold;font-size: 16pt; color: black;;}')
             self.lbl6.resize(500,160)
             self.lbl6.setWordWrap(True)
             self.lbl6.move(700,110)
@@ -728,20 +655,20 @@ class Window(QtGui.QWidget):
             
 
             self.lbl7.setText(self.ama_price)
-            self.lbl7.setStyleSheet('QLabel {font-size: 16pt; color: black;allign:left}')
+            self.lbl7.setStyleSheet('QLabel {font-size: 16pt; color: black;}')
             self.lbl7.resize(150,40)
             self.lbl7.move(750,260)
             
             self.lbl7.show()
             self.lbl8 =  QtGui.QLabel(self)    
             self.lbl8.setText("RATING:"+self.ama_rating)
-            self.lbl8.setStyleSheet('QLabel {font-size: 16pt; color: black;allign:left}')
+            self.lbl8.setStyleSheet('QLabel {font-size: 16pt; color: black;}')
             self.lbl8.resize(450,120)
             self.lbl8.move(750,260)
             self.lbl8.show()
             self.lbl9 =  QtGui.QLabel(self)    
             self.lbl9.setText("Ratings Based on "+self.ama_no_rating)
-            self.lbl9.setStyleSheet('QLabel {font-size: 16pt; color: black;allign:left}')
+            self.lbl9.setStyleSheet('QLabel {font-size: 16pt; color: black;}')
             self.lbl9.resize(450,120)
             self.lbl9.move(750,310)
             
@@ -811,11 +738,8 @@ class Window(QtGui.QWidget):
         flipkart=0
         amazon=0
         amazon_price=self.ama_price.replace(',',"")
-        print self.flip_price.strip("Rs. ")
-        
-        flipK_price=self.flip_price.strip("Rs. ")
-        flipK_price=flipK_price.replace(',',"")
-        print flipK_price
+        flipK_price=self.ama_price.strip('Rs. ')
+        flipK_price=self.ama_price.replace(',',"")
         a_price=float(amazon_price)
         f_price=float(flipK_price)
         print a_price
@@ -866,7 +790,7 @@ class Window(QtGui.QWidget):
             self.lbl10.setText("OUR SUGGESTION :FLIPKART")
             self.lbl10.setStyleSheet('QLabel {font:bold;font-size: 24pt; color: white;}')
             self.lbl10.resize(680,120)
-            self.lbl10.move(680,370)
+            self.lbl10.move(680,470)
             self.lbl10.show()
         
 def run():    
